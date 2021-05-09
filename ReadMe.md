@@ -52,6 +52,26 @@ The only required field is `template` which is the relative path from the `templ
 
 The rest is whatever you want, just make sure the variables are in the template (`{{variable}}`).
 
+### Simple URLs
+
+`sg1 urls projectname` creates a `urls` folder in `projectname` with a `urls.json` file containing all the project urls 
+for ease of use in the templates.
+
+Example:
+
+Let's say you have a content file `posts/post.json`. The above command will add relative reference in the `urls.json` 
+file like:
+
+```json
+{
+  ...,
+  "posts__post": "/posts/post.html",
+  ...
+}
+```
+
+You can then create a link in the template with `<a href="{{ urls.posts__post }}">Post</a>`
+
 ### HTML
 
-Profit
+To generate the HTML files, run `sg1 render projectname`.
