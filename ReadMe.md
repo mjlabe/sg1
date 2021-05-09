@@ -78,5 +78,5 @@ To generate the HTML files, run `sg1 render projectname`.
 
 ## To Do
 
-[] Add `extra_context` field to context files that automagically includes context of a specified subfolder (to easily
+- [ ] Add `extra_context` field to context files that automagically includes context of a specified subfolder (to easily
 use context from `example_post.json` to render the image and title in `index.html` for example).
