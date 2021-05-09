@@ -15,13 +15,13 @@ with jinja templates and json files. This basically cuts the framework out of re
 
 This creates 3 folders in a directory `projectname`:
 
-1. `templates`: These are the [jinja2](https://palletsprojects.com/p/jinja/) templates that will be rendered
+1. `templates`: These are the [jinja2](https://palletsprojects.com/p/jinja/) templates that will be rendered.
 
-2. `content`: JSON files that specify the key value pairs used to render the templates
+2. `content`: JSON files that specify the key value pairs used to render the templates.
 
-3. `html`: Output directory of the rendering. This is your beautifully* rendered html files
+3. `html`: Output directory of the rendering. This is where your beautifully* rendered html files are generated.
 
-> *Beauty is not guaranteed.
+> *Beauty not guaranteed.
 
 ### Templates
 
@@ -70,7 +70,7 @@ file like:
 }
 ```
 
-You can then create a link in the template with `<a href="{{ urls.posts__post }}">Post</a>`
+You can then create a link in the template with `<a href="{{ urls.posts__post }}">Post</a>`.
 
 ### HTML
 
