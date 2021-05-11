@@ -2,13 +2,13 @@ from setuptools import setup
 
 
 def readme():
-    with open('README.md') as f:
+    with open('README.rst') as f:
         return f.read()
 
 
 setup(
     name='sg1',
-    version='0.1.1',
+    version='0.1.2',
     description='A stupid, simple, static site generator',
     long_description=readme(),
     license='MIT',
