@@ -22,4 +22,5 @@ build:
 .PHONY: install
 install:
 	python3 setup.py bdist_wheel
-	pip install ./dist/sg1-0.1-py3-none-any.whl --force-reinstall
+	python3 setup.py sdist
+	pip install ./dist/sg1-0.1.1-py3-none-any.whl --force-reinstall

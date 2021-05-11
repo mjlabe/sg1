@@ -4,6 +4,7 @@ import os
 import sys
 
 from sg1.render import render_files
+from sg1.helpers.directory import get_directories
 
 
 settings_module = os.environ.get("SETTINGS", None)
@@ -26,17 +27,8 @@ def start(project):
         os.mkdir(os.path.join(project_root, settings.OUTPUT_FOLDER))
 
 
-def generate_urls(project=None):
-    print('Generating URLS')
-    if project:
-        project_dir = os.path.join(settings.BASE_DIR, project)
-        content_dir = os.path.join(project_dir, settings.CONTENT_FOLDER)
-    else:
-        project_dir = settings.BASE_DIR
-        content_dir = os.path.join(settings.BASE_DIR, settings.CONTENT_FOLDER)
+def walk_content(content_dir):
     urls = {}
-    if not os.path.isdir(os.path.join(project_dir, 'urls')):
-        os.mkdir(os.path.join(project_dir, 'urls'))
     for root, dirs, files in os.walk(content_dir):
         rel_root = root.split(content_dir)[1]
         for name in files:
@@ -45,6 +37,10 @@ def generate_urls(project=None):
             if key.startswith("/"):
                 key = key[1:].replace('/', '__')
             urls[key] = rel_path.replace('.json', '.html')
+    return urls
+
+
+def save_urls(urls, project_dir):
     url_file_path = os.path.join(project_dir, 'urls', 'urls.json')
     if os.path.isfile(url_file_path):
         reply = str(input('URL file already exists. Replace? (y/n): ')).lower().strip()
@@ -60,6 +56,16 @@ def generate_urls(project=None):
     print('Saving')
     with open(url_file_path, 'w+') as url_file:
         url_file.write(json.dumps(urls, indent=4))
+
+
+def generate_urls(project=None):
+    print('Generating URLS')
+    project_dir, content_dir = get_directories(project)
+    if not os.path.isdir(os.path.join(project_dir, 'urls')):
+        os.mkdir(os.path.join(project_dir, 'urls'))
+    urls = walk_content(content_dir)
+    save_urls(urls, project_dir)
+
 
 
 def render(project=None):

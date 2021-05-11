@@ -6,5 +6,14 @@
 </head>
 <body>
     <h1>Hello, {{ content.world }}</h1>
+
+    <a href="{{ urls.posts__example_post }}">{{ content.posts__example_post.title }}</a>
+    <p>{{ content.posts__example_post.p }}</p>
+
+    <a href="{{ urls.posts__example_post_2 }}">{{ content.posts__example_post_2.title }}</a>
+    <p>{{ content.posts__example_post_2.p }}</p>
+
+    <a href="{{ urls.about__about }}">{{ content.about__about.title }}</a>
+    <p>{{ content.about__about.p }}</p>
 </body>
 </html>
