@@ -14,7 +14,3 @@ except ImportError:
 
 def main():
     parse_command(sys.argv)
-
-
-if __name__ == '__main__':
-    main()

@@ -63,7 +63,6 @@ def get_extras_content(project, page_content: dict) -> dict:
                             key = extra.replace("/", "__") + '__' + content_file.replace("/", "__").replace('.json', '')
                             page_content[key] = json.load(content_json)
         del(page_content['extras'])
-    print(page_content)
     return page_content
 
 
