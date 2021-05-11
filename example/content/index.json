@@ -1,4 +1,8 @@
 {
   "template": "index.html",
-  "world": "earth"
+  "world": "earth",
+  "extras": [
+      "about/about.json",
+      "posts"
+  ]
 }

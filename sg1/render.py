@@ -3,6 +3,8 @@ import os
 import json
 from jinja2 import Environment, FileSystemLoader
 
+from sg1.helpers.directory import get_directories
+
 settings_module = os.environ.get("SETTINGS", None)
 if settings_module and os.path.isfile(os.path.join(os.getcwd(), os.path.join(*settings_module.split('.')) + '.py')):
     settings = importlib.import_module(settings_module)
@@ -46,20 +48,34 @@ def get_urls(project_dir):
     return {}
 
 
+def get_extras_content(project, page_content: dict) -> dict:
+    if "extras" in page_content.keys():
+        for extra in page_content['extras']:
+            proj_dir = os.path.join(settings.BASE_DIR, project)
+            extra_path = os.path.join(proj_dir, settings.CONTENT_FOLDER, extra)
+            if os.path.isfile(extra_path):
+                with open(extra_path, 'r') as content_json:
+                    page_content[extra.replace("/", "__").replace('.json', '')] = json.load(content_json)
+            else:
+                for content_file in os.listdir(extra_path):
+                    if os.path.isfile(os.path.join(proj_dir, extra_path, content_file)):
+                        with open(os.path.join(proj_dir, extra_path, content_file), 'r') as content_json:
+                            key = extra.replace("/", "__") + '__' + content_file.replace("/", "__").replace('.json', '')
+                            page_content[key] = json.load(content_json)
+        del(page_content['extras'])
+    print(page_content)
+    return page_content
+
+
 def render_files(project=None):
-    if project:
-        project_dir = os.path.join(settings.BASE_DIR, project)
-        content_dir = os.path.join(project_dir, settings.CONTENT_FOLDER)
-    else:
-        project_dir = settings.BASE_DIR
-        content_dir = os.path.join(settings.BASE_DIR, settings.CONTENT_FOLDER)
+    project_dir, content_dir = get_directories(project)
     if os.path.isdir(content_dir):
         for root, _, files in os.walk(content_dir):
             for file in files:
                 content_file_path = os.path.join(root, file)
                 with open(content_file_path, 'r') as content_json:
-                    content = json.load(content_json)
-                    print(content)
+                    page_content = json.load(content_json)
+                    content = get_extras_content(project, page_content)
                     render_page(content=content,
                                 project_path=project_dir,
                                 content_file_path=content_file_path,

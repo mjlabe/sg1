@@ -1,0 +1,5 @@
+{
+  "template": "posts/post.html",
+  "title": "About",
+  "p": "About paragraph"
+}
