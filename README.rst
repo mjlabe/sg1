@@ -11,7 +11,9 @@ Getting Started
 Install
 ~~~~~~~
 
-``pip3 install git+https://github.com/mjlabe/sg1.git@main``
+To install from `PyPi`_ :
+
+``pip3 install sg1``
 
 Setup
 ~~~~~
@@ -107,3 +109,4 @@ To Do
 
 .. _jinja2: https://palletsprojects.com/p/jinja/
 .. _jinja2 documentation: https://palletsprojects.com/p/jinja/
+.. _PyPi: https://pypi.org/project/sg1/
