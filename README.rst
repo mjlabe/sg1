@@ -49,24 +49,22 @@ Example:
 
    # index.json
            
-   {
-     "template": "index.html",
-     "posts": [
-       {
-         "title": "test",
-         "location": "location",
-         "summary": "summary",
-         }
-       }
-       ...    
-     ]
+    {
+        "template": "index.html",
+        "title": "I'm a title"
+        "p": "I'm a paragraph."
+        "extras": [
+          "about/about.json",
+          "posts"
+        ]
+        ...
    }
 
 The only required field is ``template`` which is the relative path from
 the ``templates`` folder.
 
 The rest is whatever you want, just make sure the variables are in the
-template (``{{variable}}``).
+template (``{{ content.variable }}``).
 
 Simple URLs
 ~~~~~~~~~~~
