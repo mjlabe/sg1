@@ -36,6 +36,8 @@ def walk_content(content_dir):
             key = rel_path.split('.json')[0]
             if key.startswith("/"):
                 key = key[1:].replace('/', '__')
+            if not rel_path.startswith('/'):
+                rel_path = '/' + rel_path
             urls[key] = rel_path.replace('.json', '.html')
     return urls
 
@@ -45,17 +47,17 @@ def save_urls(urls, project_dir):
     if os.path.isfile(url_file_path):
         reply = str(input('URL file already exists. Replace? (y/n): ')).lower().strip()
         if reply in ['y', 'yes']:
-            print('Saving')
-            with open(url_file_path, 'w+') as url_file:
-                url_file.write(json.dumps(urls, indent=4))
+            pass
         elif reply in ['n', 'no']:
             print('Canceled.')
+            return
         else:
             print(f'{reply} is not an option. Canceled.')
-        return
+            return
     print('Saving')
     with open(url_file_path, 'w+') as url_file:
-        url_file.write(json.dumps(urls, indent=4))
+        json_urls = json.dumps(urls, indent=4) + '\n'
+        url_file.write(json_urls)
 
 
 def generate_urls(project=None):

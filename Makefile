@@ -13,4 +13,8 @@ dist:
 
 .PHONY: install
 install:
-	pip install ./dist/sg1-0.1.1-py3-none-any.whl --force-reinstall
+	pip install ./dist/sg1-0.1.3-py3-none-any.whl --force-reinstall
+
+.PHOMY: upload
+upload:
+	twine upload dist/*

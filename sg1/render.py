@@ -42,9 +42,9 @@ def render_page(content, content_file_path, urls, project_path):
 
 def get_urls(project_dir):
     urls_path = os.path.join(project_dir, 'urls', 'urls.json')
-    if os.path.isdir(urls_path):
+    if os.path.isfile(urls_path):
         with open(urls_path, 'r') as urls_file:
-            return json.load(urls_file)
+            return json.loads(urls_file.read())
     return {}
 
 

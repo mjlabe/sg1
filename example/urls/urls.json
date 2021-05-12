@@ -1,5 +1,5 @@
 {
-    "index": "index.html",
+    "index": "/index.html",
     "posts__example_post": "/posts/example_post.html",
     "posts__example_post_2": "/posts/example_post_2.html",
     "about__about": "/about/about.html"
