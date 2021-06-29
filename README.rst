@@ -66,6 +66,48 @@ the ``templates`` folder.
 The rest is whatever you want, just make sure the variables are in the
 template (``{{ content.variable }}``).
 
+Pagination
+~~~~~~~~~~
+
+1. Create a file with a list of files in the format ``folder__basename``:
+
+.. code:: json
+
+    # sg1_pagination.json
+
+    [
+        "posts__example_post",
+        "posts__example_post_2",
+        "posts__example_post_3"
+    ]
+
+2. Add reference to context file where pagination should be injected:
+
+.. code:: json
+
+    # posts.json
+
+    {
+      "template": "posts.html",
+      "title": "Posts",
+      "extras": [
+        "about/about.json",
+        "posts"
+      ],
+      "pagination": "posts/sg1_pagination.json"
+    }
+
+3. A list of pagination data (``url`` and ``content``) for the files will be injected in the template:
+
+.. code:: json
+
+    # posts.html
+
+    {% for page in pagination|reverse %}
+        <a href="{{ page.url }}">{{ page.content.title }}</a>
+        <p>{{ page.content.p }}</p>
+    {% endfor %}
+
 Simple URLs
 ~~~~~~~~~~~
 
@@ -101,7 +143,7 @@ To Do
    context of a specified subfolder (to easily use context from
    ``example_post.json`` to render the image and title in ``index.html``
    for example).
--  ☐ Pagination of extra
+-  ☒ Pagination of extra
 -  ☐ Refactor and general cleanup
 -  ☐ Update paths for Windows
 
