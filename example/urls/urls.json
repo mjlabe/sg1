@@ -1,6 +1,9 @@
 {
     "index": "/index.html",
+    "posts": "/posts.html",
     "posts__example_post": "/posts/example_post.html",
     "posts__example_post_2": "/posts/example_post_2.html",
+    "posts__sg1_pagination": "/posts/sg1_pagination.html",
+    "posts__example_post_3": "/posts/example_post_3.html",
     "about__about": "/about/about.html"
 }

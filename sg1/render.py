@@ -17,7 +17,7 @@ class TemplateError(Exception):
         super().__init__(f"You must include the template path in {path}.")
 
 
-def render_page(content, content_file_path, urls, project_path):
+def render_page(content, content_file_path, urls, project_path, pagination=[]):
     print(f"Rendering {content_file_path} content to static file.")
     parent_dir = os.path.basename(os.path.dirname(content_file_path))
     if parent_dir == 'content':
@@ -35,7 +35,8 @@ def render_page(content, content_file_path, urls, project_path):
     with open(os.path.join(output_path, os.path.basename(content_file_path).split('.')[0] + '.html'), 'w+') as file:
         html = template.render(
             content=content,
-            urls=urls
+            urls=urls,
+            pagination=pagination
         )
         file.write(html)
 
@@ -48,8 +49,32 @@ def get_urls(project_dir):
     return {}
 
 
+def get_pagination(project, page_content):
+    try:
+        result = []
+        if "pagination" in page_content.keys():
+            proj_dir = os.path.join(settings.BASE_DIR, project)
+            pagination_file_path = os.path.join(proj_dir, settings.CONTENT_FOLDER, page_content['pagination'])
+            with open(pagination_file_path) as pagination:
+                pagination_data = json.load(pagination)
+                for page in pagination_data:
+                    page_path = os.path.join(proj_dir, settings.CONTENT_FOLDER, page.replace('__', '/') + '.json')
+                    with open(page_path) as page_data:
+                        print(page_data)
+                        content = json.load(page_data)
+                        result.append({'url': './' + page.replace('__', '/') + '.html', 'content': content})
+                        print(result)
+                return result
+        else:
+            return []
+    except Exception as error:
+        print("WARNING: Error adding pagination content.\n")
+        print(error)
+        return []
+
+
 def get_extras_content(project, page_content: dict) -> dict:
-    if "extras" in page_content.keys():
+    if type(page_content) == dict and "extras" in page_content.keys():
         for extra in page_content['extras']:
             proj_dir = os.path.join(settings.BASE_DIR, project)
             extra_path = os.path.join(proj_dir, settings.CONTENT_FOLDER, extra)
@@ -70,14 +95,17 @@ def render_files(project=None):
     project_dir, content_dir = get_directories(project)
     if os.path.isdir(content_dir):
         for root, _, files in os.walk(content_dir):
-            for file in files:
+            content_files = [file for file in files if os.path.basename(file) != 'sg1_pagination.json']
+            for file in content_files:
                 content_file_path = os.path.join(root, file)
                 with open(content_file_path, 'r') as content_json:
                     page_content = json.load(content_json)
+                    pagination = get_pagination(project, page_content)
                     content = get_extras_content(project, page_content)
                     render_page(content=content,
                                 project_path=project_dir,
                                 content_file_path=content_file_path,
-                                urls=get_urls(project_dir))
+                                urls=get_urls(project_dir),
+                                pagination=pagination)
         return
     print('Must create posts directory or specify custom path in settings')

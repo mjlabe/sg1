@@ -1,0 +1,9 @@
+{
+  "template": "posts.html",
+  "title": "Posts",
+  "extras": [
+    "about/about.json",
+    "posts"
+  ],
+  "pagination": "posts/sg1_pagination.json"
+}
