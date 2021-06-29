@@ -69,6 +69,36 @@ def generate_urls(project=None):
     save_urls(urls, project_dir)
 
 
+def add_page(filename):
+    with open(os.path.splitext(filename)[0] + '.json', 'w+') as page:
+        page.write('')
+    paginate()
+
+
+def paginate(filename=None):
+    pagination_file_name = 'sg1_pagination.json'
+    pagination = []
+    if os.path.exists(pagination_file_name):
+        with open(pagination_file_name, 'r+') as pagination_file:
+            try:
+                pagination = json.load(pagination_file)
+            except Exception:
+                raise
+    else:
+        with open(pagination_file_name, 'w+') as pagination_file:
+            pagination_file.write('')
+
+    # if filename:
+    #     add_page(filename)
+
+    for file in os.listdir(os.getcwd()):
+        if os.path.basename(file) != pagination_file_name:
+            pagination.append(os.path.basename(os.getcwd()) + '__' + os.path.splitext(file)[0])
+
+    with open(pagination_file_name, 'r+') as pagination_file:
+        pagination_json = json.dumps(pagination, indent=4) + '\n'
+        pagination_file.write(pagination_json)
+
 
 def render(project=None):
     render_files(project)
@@ -77,6 +107,8 @@ def render(project=None):
 commands = {
     'start': start,
     'urls': generate_urls,
+    # 'addpage': add_page,
+    'paginate': paginate,
     'render': render,
 }
 

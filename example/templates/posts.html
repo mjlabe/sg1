@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+</head>
+<body>
+    <a href="{{ urls.index }}">Home</a>
+
+    <h1>Hello, {{ content.title }}</h1>
+
+    {% for page in pagination|reverse %}
+
+        <a href="{{ page.url }}">{{ page.content.title }}</a>
+        <p>{{ page.content.p }}</p>
+
+    {% endfor %}
+
+    <a href="{{ urls.about__about }}">{{ content.about__about.title }}</a>
+    <p>{{ content.about__about.p }}</p>
+</body>
+</html>
